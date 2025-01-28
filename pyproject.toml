@@ -11,6 +11,7 @@ authors = [
 
 dependencies = [
     "django>=5.0",
+    "django-anymail[brevo]",
     "django-environ",
     "django-redis",
     "django-storages[s3]",
