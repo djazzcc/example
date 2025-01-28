@@ -11,6 +11,12 @@ authors = [
 
 dependencies = [
     "django>=5.0",
+    "django-environ",
+    "django-storages[s3]",
+    "gunicorn",
+    "pillow",
+    "psycopg[binary]",
+    "wagtail",
 ]
 
 [project.optional-dependencies]
