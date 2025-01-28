@@ -1,0 +1,24 @@
+[project]
+name = "djazz-example"
+version = "0.0.1"
+description = "A CLI tool for Django development"
+readme = "README.md"
+requires-python = ">=3.12"
+license = {file = "LICENSE"}
+authors = [
+    { name = "Azat", email = "info@azat.ai" }
+]
+
+dependencies = [
+    "django>=5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+]
+
+[project.urls]
+Homepage = "https://github.com/djazzcc/example"
+Repository = "https://github.com/djazzcc/example"
+
+
