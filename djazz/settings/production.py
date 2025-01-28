@@ -46,3 +46,28 @@ CACHES = {
 DATABASES = {
     'default': env.db(),
 }
+
+# https://docs.djangoproject.com/en/5.1/ref/settings/#debug
+# Debug should be strictly False in production
+DEBUG = False
+
+# https://docs.djangoproject.com/en/5.1/ref/settings/#default-from-email
+# Example (in .env): DEFAULT_FROM_EMAIL="Djazz! <info@example.com>"
+DEFAULT_FROM_EMAIL = "noreply@example.com"
+
+# https://docs.djangoproject.com/en/5.1/ref/settings/#email-backend
+# https://anymail.dev/en/stable/
+# Example (in .env): EMAIL_BACKEND="anymail.backends.brevo.EmailBackend"
+# Example (in .env): BREVO_API_KEY="your_brevo_api_key"
+# You can use anymail to send emails from your Django app, check anymail docs
+# for more information.
+EMAIL_BACKEND = "anymail.backends.brevo.EmailBackend"
+ANYMAIL = {
+    "BREVO_API_KEY": env("BREVO_API_KEY"),
+    "BREVO_API_URL": env("BREVO_API_URL", default="https://api.brevo.com/v3/"),
+}
+
+# https://docs.djangoproject.com/en/5.1/ref/settings/#email-subject-prefix
+# Example (in .env): EMAIL_SUBJECT_PREFIX="[Djazz] "
+EMAIL_SUBJECT_PREFIX = env("EMAIL_SUBJECT_PREFIX")
+
