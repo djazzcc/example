@@ -30,7 +30,7 @@ from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 PROJECT_DIR = BASE_DIR / "djazz"
-CORE_DIR = PROJECT_DIR / "core"
+CORE_DIR = BASE_DIR / "core"
 
 # ----
 # .ENV
@@ -296,7 +296,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-user-model
-AUTH_USER_MODEL = "core.users.User"
+AUTH_USER_MODEL = "users.User"
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#login-redirect-url
 LOGIN_REDIRECT_URL = "users:redirect"
@@ -376,7 +376,9 @@ STATIC_ROOT = BASE_DIR / "static"
 STATIC_URL = "/static/"
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#static-files-dir
-STATICFILES_DIRS = [CORE_DIR / "static"]
+STATICFILES_DIRS = [
+    CORE_DIR / "static",
+]
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#staticfiles-finders
 STATICFILES_FINDERS = [
