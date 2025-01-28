@@ -12,6 +12,7 @@ authors = [
 dependencies = [
     "django>=5.0",
     "django-environ",
+    "django-redis",
     "django-storages[s3]",
     "gunicorn",
     "pillow",
