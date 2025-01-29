@@ -162,47 +162,23 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
-            'style': '{',
-        },
-        'simple': {
             'format': '{levelname} {asctime} {module} {message}',
             'style': '{',
         },
     },
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        },
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue'
-        }
-    },
     'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
-        },
         'console': {
-            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'simple',
+            'formatter': 'verbose',
         },
     },
     'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-        'cms': {
-            'filters': ['require_debug_true'],
+        'core.utils.templatetags.vite': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': 'WARNING',
             'propagate': True,
         },
-    }
+    },
 }
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#managers
