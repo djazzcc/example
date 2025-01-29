@@ -130,7 +130,7 @@ THIRD_PARTY_APPS = [
 ]
 
 CORE_APPS = [
-    "core",
+    "core.utils",
     "core.search",
     "core.users",
 ]

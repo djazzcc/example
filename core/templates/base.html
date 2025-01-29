@@ -5,8 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Djazz{% endblock %}</title>
-    {% vite_hmr %}
-    <link rel="stylesheet" href="{% vite_asset 'core/assets/scss/main.scss' %}">
+    {% if debug %}
+        {% vite_hmr %}
+        <link rel="stylesheet" href="{% vite_asset 'core/assets/scss/main.scss' %}">
+    {% else %}
+        <link rel="stylesheet" href="{% vite_asset 'css/main.css' %}">
+    {% endif %}
 </head>
 <body class="min-vh-100 d-flex flex-column">
     <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
@@ -25,6 +29,10 @@
         </div>
     </footer>
 
-    <script type="module" src="{% vite_asset 'core/assets/js/main.js' %}"></script>
+    {% if debug %}
+        <script type="module" src="{% vite_asset 'core/assets/js/main.js' %}"></script>
+    {% else %}
+        <script type="module" src="{% vite_asset 'js/main.js' %}"></script>
+    {% endif %}
 </body>
 </html> 

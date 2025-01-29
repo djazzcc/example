@@ -15,7 +15,7 @@
 # https://docs.djangoproject.com/en/stable/howto/deployment/checklist/
 # -------------------------
 
-from .base import * 
+from .base import *  # noqa
 from email.utils import getaddresses
 
 
@@ -25,7 +25,7 @@ ADMINS = getaddresses([env('ADMINS')])
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#allowed-hosts
 # Example (in .env): ALLOWED_HOSTS=example.com,www.example.com
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[])
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#caches
 # Example (in .env): CACHE_URL=redis://redis:6379/1
@@ -44,12 +44,12 @@ CACHES = {
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases 
 # Example (in .env): DATABASE_URL=postgres://username:password@host:port/database_name
 DATABASES = {
-    'default': env.db(),
+    "default": env.db("DATABASE_URL")
 }
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#debug
 # Debug should be strictly False in production
-DEBUG = False
+DEBUG = env.bool("DJANGO_DEBUG", False)
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-from-email
 # Example (in .env): DEFAULT_FROM_EMAIL="Djazz! <info@example.com>"
@@ -70,4 +70,17 @@ ANYMAIL = {
 # https://docs.djangoproject.com/en/5.1/ref/settings/#email-subject-prefix
 # Example (in .env): EMAIL_SUBJECT_PREFIX="[Djazz] "
 EMAIL_SUBJECT_PREFIX = env("EMAIL_SUBJECT_PREFIX")
+
+# Static files
+STATIC_ROOT = BASE_DIR / "static"
+STATICFILES_DIRS = [
+    CORE_DIR / "static",
+]
+
+# Secret key
+SECRET_KEY = env("SECRET_KEY")
+
+# Disable debug toolbar
+INSTALLED_APPS = [app for app in INSTALLED_APPS if not app.startswith('debug_toolbar')]
+MIDDLEWARE = [m for m in MIDDLEWARE if not m.startswith('debug_toolbar')]
 

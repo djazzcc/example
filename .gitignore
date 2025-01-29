@@ -15,7 +15,7 @@ media/
 node_modules
 pnpm-lock.yaml
 .pnpm-store
-core/static/fonts
-core/static/css
-core/static/js
-core/static/manifest.json
+core/static/css/
+core/static/js/
+core/static/fonts/
+core/static/.vite/
