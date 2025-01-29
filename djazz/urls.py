@@ -27,11 +27,13 @@ if settings.DEBUG:
 
     urlpatterns += [
         re_path(r'^__debug__/', include(debug_toolbar.urls)),
-        path('404/', TemplateView.as_view(template_name='404.html')),
+    ]
+    urlpatterns += i18n_patterns(
+    path('404/', TemplateView.as_view(template_name='404.html')),
         path('500/', TemplateView.as_view(template_name='500.html')),
         path('403/', TemplateView.as_view(template_name='403.html')),
         path('403-csrf/', TemplateView.as_view(template_name='403_csrf.html')),
-    ]
+    )
 
 urlpatterns += i18n_patterns(
     path('search/', search_views.search, name='search'),
