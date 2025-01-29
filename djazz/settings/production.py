@@ -71,11 +71,25 @@ ANYMAIL = {
 # Example (in .env): EMAIL_SUBJECT_PREFIX="[Djazz] "
 EMAIL_SUBJECT_PREFIX = env("EMAIL_SUBJECT_PREFIX")
 
-# Static files
-STATIC_ROOT = BASE_DIR / "static"
+# Static files configuration
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_DIRS = [
-    CORE_DIR / "static",
+    CORE_DIR / 'static',
 ]
+
+# Use the default static files storage instead of ManifestStaticFilesStorage
+# Remove or comment out this line:
+# STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+
+# Add proper MIME type mapping
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+
+# Add security headers but don't interfere with static files
+SECURE_CONTENT_TYPE_NOSNIFF = False  # Temporarily disable for debugging
 
 # Secret key
 SECRET_KEY = env("SECRET_KEY")

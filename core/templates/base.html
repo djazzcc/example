@@ -7,9 +7,9 @@
     <title>{% block title %}Djazz{% endblock %}</title>
     {% if debug %}
         {% vite_hmr %}
-        <link rel="stylesheet" href="{% vite_asset 'core/assets/scss/main.scss' %}">
+        <link rel="stylesheet" href="{% vite_asset 'core/assets/scss/main.scss' %}" type="text/css">
     {% else %}
-        <link rel="stylesheet" href="{% vite_asset 'css/main.css' %}">
+        <link rel="stylesheet" href="{% vite_asset 'css/main.css' %}" type="text/css">
     {% endif %}
 </head>
 <body class="min-vh-100 d-flex flex-column">
