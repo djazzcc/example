@@ -1,6 +1,6 @@
 {% load vite %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,6 +16,15 @@
     <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="/">Djazz</a>
+            <div class="ms-auto">
+                <button class="btn btn-link nav-link px-3 py-2 d-flex align-items-center" 
+                        id="bd-theme" 
+                        type="button"
+                        aria-label="Toggle theme">
+                    <i class="bi bi-circle-half theme-icon-active"></i>
+                    <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+                </button>
+            </div>
         </div>
     </nav>
 
@@ -23,7 +32,7 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="py-3 mt-auto bg-light">
+    <footer class="py-3 mt-auto bg-body-tertiary">
         <div class="container text-center">
             <p class="mb-0">&copy; {% now "Y" %} Djazz. All rights reserved.</p>
         </div>

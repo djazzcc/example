@@ -1,7 +1,19 @@
+// Set Bootstrap Icons font path
+$bootstrap-icons-font-dir: "/static/fonts";
+
 // Import Bootstrap Icons
 @import "bootstrap-icons/font/bootstrap-icons";
 
 // Import Bootstrap
 @import "bootstrap/scss/bootstrap";
+
+// Color mode specific styles
+[data-bs-theme="dark"] {
+  .navbar {
+    --bs-navbar-color: rgba(var(--bs-emphasis-color-rgb), 0.65);
+    --bs-navbar-hover-color: rgba(var(--bs-emphasis-color-rgb), 0.8);
+    --bs-navbar-active-color: rgba(var(--bs-emphasis-color-rgb), 1);
+  }
+}
 
 // Your custom styles below 
