@@ -1,5 +1,4 @@
-// Import Bootstrap Icons with correct font path
-$bootstrap-icons-font-dir: "~bootstrap-icons/font/fonts";
+// Import Bootstrap Icons
 @import "bootstrap-icons/font/bootstrap-icons";
 
 // Import Bootstrap
@@ -7,9 +6,9 @@ $bootstrap-icons-font-dir: "~bootstrap-icons/font/fonts";
 
 // Test styles
 .test-vite {
-  background-color: #e91e63;
+  background-color: pink;
+  padding: 20px;
   color: white;
-  padding: 1rem;
   border-radius: 0.5rem;
   margin: 1rem;
 }

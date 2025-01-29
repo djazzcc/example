@@ -7,6 +7,8 @@ export default defineConfig({
     outDir: resolve('./core/static/'),
     assetsDir: '',
     manifest: true,
+    minify: 'esbuild',
+    cssMinify: true,
     rollupOptions: {
       input: {
         main: resolve('./core/assets/js/main.js'),
@@ -28,6 +30,11 @@ export default defineConfig({
         },
       },
     },
+    cssCodeSplit: true,
+    sourcemap: false,
+    target: 'es2015',
+    chunkSizeWarningLimit: 500,
+    reportCompressedSize: true
   },
   server: {
     host: '127.0.0.1',
