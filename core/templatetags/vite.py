@@ -11,7 +11,7 @@ def vite_asset(path):
     Resolve a Vite asset path based on manifest.json in development and production.
     """
     if settings.DEBUG:
-        return f'http://localhost:5173/static/{path}'
+        return f'http://127.0.0.1:3000/{path}'
     
     try:
         manifest_path = settings.STATIC_ROOT / 'manifest.json'
@@ -32,6 +32,6 @@ def vite_hmr():
     """
     if settings.DEBUG:
         return mark_safe(
-            '<script type="module" src="http://localhost:5173/@vite/client"></script>'
+            '<script type="module" src="http://127.0.0.1:3000/@vite/client"></script>'
         )
     return '' 

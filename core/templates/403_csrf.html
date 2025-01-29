@@ -1,1 +1,21 @@
-403_csrf
+{% extends "base.html" %}
+
+{% block title %}403 - CSRF Error{% endblock %}
+
+{% block content %}
+<div class="container min-vh-50 d-flex align-items-center justify-content-center py-5">
+    <div class="text-center">
+        <h1 class="display-1 fw-bold text-warning">403</h1>
+        <h2 class="fs-4 mb-4">CSRF Verification Failed</h2>
+        <p class="lead mb-4">Your form submission couldn't be processed. Please try again.</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <button onclick="history.back()" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-2"></i>Go Back
+            </button>
+            <a href="/" class="btn btn-primary">
+                <i class="bi bi-house-door me-2"></i>Home
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

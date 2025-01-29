@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import { resolve } from 'path'
 
 export default defineConfig({
-  base: '/static/',
+  base: '/',
   build: {
     outDir: resolve('./core/static/'),
     assetsDir: '',
@@ -21,18 +21,33 @@ export default defineConfig({
           if (/\.css$/.test(name ?? '')) {
             return 'css/[name]-[hash][extname]';
           }
+          if (/\.(woff2?|eot|ttf|otf)$/.test(name ?? '')) {
+            return 'fonts/[name][extname]';
+          }
           return '[name]-[hash][extname]';
         },
       },
     },
   },
   server: {
-    host: 'localhost',
-    port: 5173,
+    host: '127.0.0.1',
+    port: 3000,
     open: false,
+    origin: 'http://127.0.0.1:3000',
     watch: {
       usePolling: true,
       disableGlobbing: false,
     },
+    fs: {
+      strict: false,
+      allow: ['..']
+    }
   },
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, './'),
+      '~bootstrap-icons': resolve(__dirname, 'node_modules/bootstrap-icons')
+    }
+  },
+  publicDir: resolve(__dirname, 'public')
 }) 

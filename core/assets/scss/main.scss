@@ -1,3 +1,7 @@
+// Import Bootstrap Icons with correct font path
+$bootstrap-icons-font-dir: "~bootstrap-icons/font/fonts";
+@import "bootstrap-icons/font/bootstrap-icons";
+
 // Import Bootstrap
 @import "bootstrap/scss/bootstrap";
 
