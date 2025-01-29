@@ -34,6 +34,5 @@ INSTALLED_APPS += ["debug_toolbar"]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#internal-ips
 INTERNAL_IPS = ["127.0.0.1", "::1"]
-
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#add-the-debug-toolbar-middleware
 MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")

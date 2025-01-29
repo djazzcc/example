@@ -400,7 +400,7 @@ WAGTAIL_SITE_NAME = "Djazz CMS"
 WAGTAILADMIN_BASE_URL = "http://localhost:8000"
 
 # https://docs.wagtail.org/en/stable/reference/settings.html#wagtail-i18n-enabled
-WAGTAIL_I18N_ENABLED = True
+WAGTAIL_I18N_ENABLED = False
 
 # https://docs.wagtail.org/en/stable/reference/settings.html#wagtail-content-languages
 WAGTAIL_CONTENT_LANGUAGES = LANGUAGES
