@@ -1,0 +1,20 @@
+{% load vite %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Djazz</title>
+    {% vite_hmr %}
+    <link rel="stylesheet" href="{% vite_asset 'css/main.css' %}">
+</head>
+<body>
+    <div class="test-vite">
+        If you see this with pink background, Vite is working! 🎉
+    </div>
+    
+    {% block content %}{% endblock %}
+    
+    <script type="module" src="{% vite_asset 'js/main.js' %}"></script>
+</body>
+</html> 

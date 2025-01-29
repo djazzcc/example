@@ -6,3 +6,11 @@
 # https://github.com/djazzcc/.gitignore 
 # described in https://git-scm.com/docs/gitignore
 # ----------
+
+# Vite/Node
+node_modules
+pnpm-lock.yaml
+.pnpm-store
+core/static/css
+core/static/js
+core/static/manifest.json
