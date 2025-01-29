@@ -7,10 +7,15 @@
 # described in https://git-scm.com/docs/gitignore
 # ----------
 
+# Django 
+static/
+media/
+
 # Vite/Node
 node_modules
 pnpm-lock.yaml
 .pnpm-store
+core/static/fonts
 core/static/css
 core/static/js
 core/static/manifest.json
