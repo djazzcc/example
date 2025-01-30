@@ -10,8 +10,11 @@ authors = [
 ]
 
 dependencies = [
+    "celery>=5.4.0",
     "django>=5.0",
     "django-anymail[brevo]",
+    "django-celery-beat",
+    "django-celery-results",
     "django-environ",
     "django-redis",
     "django-storages[s3]",

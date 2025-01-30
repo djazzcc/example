@@ -20,6 +20,7 @@
 #   5. Django `Sites` settings
 #   6. Django `Static Files` settings
 #   7. Wagtail settings
+#   8. Celery settings
 # Try to use the Numbers to find the settings you need with Ctrl(CMD)+F in your IDE.
 # ----------------------------
 
@@ -82,7 +83,7 @@ DATABASES = {
 DEBUG = env.bool("DJANGO_DEBUG", False)
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-from-email
-DEFAULT_FROM_EMAIL = "noreply@example.com"
+DEFAULT_FROM_EMAIL = env.str("DEFAULT_FROM_EMAIL", default="Djazz! <info@example.com>")
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#email-backend
 EMAIL_BACKEND = env.str("EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend")
@@ -140,6 +141,8 @@ WAGTAIL_APPS = [
 THIRD_PARTY_APPS = [
     "modelcluster",
     "taggit",
+    "django_celery_results",
+    "django_celery_beat",
 ]
 
 CORE_APPS = [
@@ -420,4 +423,24 @@ WAGTAIL_PASSWORD_REQUIRED_TEMPLATE = 'myapp/password_required.html'
 # https://docs.wagtail.org/en/stable/reference/settings.html#wagtail-workflow-enabled
 # This is for saving memory, if you need wagtail workflow, set this to True.
 WAGTAIL_WORKFLOW_ENABLED = False
+
+
+# -----------------------------
+# 8. Celery settings
+# https://docs.celeryq.dev/en/stable/userguide/configuration.html
+# -----------------------------
+
+# Celery Configuration Options
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_RESULT_BACKEND = env.str('CELERY_RESULT_BACKEND', default='redis://localhost:6379/0')
+CELERY_CACHE_BACKEND = "redis"
+CELERY_BROKER_URL = env.str('CELERY_BROKER_URL', default='redis://localhost:6379/0')
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+# django-celery-beat settings
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 

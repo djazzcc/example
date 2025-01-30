@@ -15,6 +15,7 @@ from .forms import LoginForm, RegisterForm
 from django.contrib.auth import get_user_model
 from datetime import timedelta
 from django.core.exceptions import ValidationError
+from .tasks import send_verification_email
 # Create your views here.
 
 User = get_user_model()
@@ -30,26 +31,14 @@ class RegisterView(CreateView):
         # Create email verification token
         verification = EmailVerification.objects.create(user=user)
         
-        # Send verification email
+        # Send verification email asynchronously
         current_site = get_current_site(self.request)
-        context = {
-            'user': user,
-            'domain': current_site.domain,
-            'protocol': 'https' if self.request.is_secure() else 'http',
-            'token': verification.token,
-            'site_name': current_site.name,
-        }
+        protocol = 'https' if self.request.is_secure() else 'http'
         
-        html_content = render_to_string('users/email/verification_email.html', context)
-        text_content = strip_tags(html_content)
-        
-        send_mail(
-            subject='Verify your email address',
-            message=text_content,
-            html_message=html_content,
-            from_email=None,
-            recipient_list=[user.email],
-            fail_silently=False,
+        send_verification_email.delay(
+            user_id=user.id,
+            domain=current_site.domain,
+            protocol=protocol
         )
         
         return redirect(reverse('users:verification_sent') + f'?email={user.email}')

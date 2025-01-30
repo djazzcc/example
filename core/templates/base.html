@@ -39,8 +39,14 @@
                                 </li>
                                 {% if user.is_staff %}
                                     <li>
-                                        <a class="dropdown-item" href="{% url 'wagtailadmin_home' %}">
+
+                                        <a class="dropdown-item" href="{% url 'admin:index' %}">
                                             <i class="bi bi-gear me-2"></i>Admin
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'wagtailadmin_home' %}">
+                                            <i class="bi bi-gear me-2"></i>CMS
                                         </a>
                                     </li>
                                 {% endif %}
