@@ -48,6 +48,7 @@ if settings.DEBUG:
 # Place your main URL patterns here, before wagtail_urls
 main_urlpatterns = (
     path('search/', search_views.search, name='search'),
+    path('users/', include('core.users.urls')),
     # Any other URL patterns should be added here, BEFORE the wagtail_urls.
     path('', include(wagtail_urls)),
 )
