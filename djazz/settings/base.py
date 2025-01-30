@@ -87,6 +87,18 @@ DEFAULT_FROM_EMAIL = "noreply@example.com"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#email-backend
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
+# https://docs.djangoproject.com/en/5.1/ref/settings/#email-host 
+EMAIL_HOST = env.str("EMAIL_HOST", default="localhost")
+
+# https://docs.djangoproject.com/en/5.1/ref/settings/#email-host-password
+EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD", default="")
+
+# https://docs.djangoproject.com/en/5.1/ref/settings/#email-host-user
+EMAIL_HOST_USER = env.str("EMAIL_HOST_USER", default="")
+
+# https://docs.djangoproject.com/en/5.1/ref/settings/#email-port
+EMAIL_PORT = env.int("EMAIL_PORT", default=25)
+
 # https://docs.djangoproject.com/en/5.1/ref/settings/#email-subject-prefix
 EMAIL_SUBJECT_PREFIX = "[Djazz] "
 
