@@ -85,7 +85,7 @@ DEBUG = env.bool("DJANGO_DEBUG", False)
 DEFAULT_FROM_EMAIL = "noreply@example.com"
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#email-backend
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = env.str("EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend")
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#email-host 
 EMAIL_HOST = env.str("EMAIL_HOST", default="localhost")

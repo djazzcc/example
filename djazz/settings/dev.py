@@ -27,10 +27,6 @@ ALLOWED_HOSTS += [ gethostname(), ] + list(set(gethostbyname_ex(gethostname())[2
 # https://docs.djangoproject.com/en/5.1/ref/settings/#debug
 DEBUG = True
 
-# https://docs.djangoproject.com/en/5.1/ref/settings/#email-backend
-# Use console backend for development
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
 # Django Debug Toolbar
 # https://django-debug-toolbar.readthedocs.io/en/latest/index.html
 INSTALLED_APPS += ["debug_toolbar"]
