@@ -33,6 +33,9 @@ services:
       - VITE_HOST=0.0.0.0
     networks:
       - djazz_network
+    hostname: vite
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   celery:
     image: djazz:dev

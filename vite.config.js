@@ -40,7 +40,10 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 3000,
     open: false,
-    origin: 'http://node:3000',
+    origin: 'http://localhost:3000',
+    hmr: {
+      host: 'localhost'
+    },
     watch: {
       usePolling: true,
       disableGlobbing: false,
