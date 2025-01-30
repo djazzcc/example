@@ -1,11 +1,13 @@
-# Git
+# Version control
 .git
 .gitignore
+.gitattributes
 
 # Docker
 .docker
-docker-compose.yml
-Dockerfile
+docker-compose*.yml
+Dockerfile*
+.dockerignore
 
 # Python
 *.pyc
@@ -20,14 +22,40 @@ __pycache__
 env/
 venv/
 .pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
 
 # IDE
-.idea
-.vscode
+.idea/
+.vscode/
 *.swp
 *.swo
+*~
 
 # Project specific
 media/
 staticfiles/
-*.sqlite3 
+*.sqlite3
+*.db
+*.log
+celerybeat-schedule
+celerybeat.pid
+
+# Documentation
+docs/
+*.md
+LICENSE
+
+# Development
+.editorconfig
+.pre-commit-config.yaml
+pytest.ini 

@@ -1,0 +1,85 @@
+version: '3.8'
+
+x-common-variables: &common-variables
+  DJANGO_SETTINGS_MODULE: djazz.settings.dev
+  REDIS_URL: redis://redis:6379/1
+  DATABASE_URL: postgres://djazz:djazz@db:5432/djazz
+
+x-common-depends: &common-depends
+  depends_on:
+    redis:
+      condition: service_started
+    db:
+      condition: service_healthy
+
+services:
+  web:
+    build: 
+      context: .
+      target: builder  # Use builder stage for development
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "8000:8000"
+      - "3000:3000"  # For Vite
+    environment:
+      <<: *common-variables
+    depends_on: *common-depends
+
+  db:
+    image: postgres:16-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=djazz
+      - POSTGRES_USER=djazz
+      - POSTGRES_PASSWORD=djazz
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U djazz"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  celery:
+    build: 
+      context: .
+      target: builder
+    command: celery -A djazz worker -l INFO
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      <<: *common-variables
+    depends_on: *common-depends
+
+  celery-beat:
+    build: 
+      context: .
+      target: builder
+    command: celery -A djazz beat -l INFO
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      <<: *common-variables
+    depends_on: *common-depends
+
+volumes:
+  postgres_data:
+  redis_data: 

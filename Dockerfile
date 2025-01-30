@@ -1,6 +1,10 @@
 FROM python:3.13-alpine AS builder
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+
+ARG DEV=false
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+# Install build dependencies
 RUN set -eux; \
     apk add --no-cache  && \
     pip install --no-cache-dir --no-deps --upgrade pip && \
@@ -8,14 +12,25 @@ RUN set -eux; \
 
 COPY pyproject.toml /pyproject.toml
 
+# Generate requirements based on build type
 RUN set -eux; \
-    uv pip compile --upgrade pyproject.toml -o /requirements.txt && \
+    if [ "$DEV" = "true" ] ; then \
+        uv pip compile --upgrade --extra dev pyproject.toml -o /requirements.txt; \
+    else \
+        uv pip compile --upgrade pyproject.toml -o /requirements.txt; \
+    fi && \
     pip wheel --no-cache-dir --no-deps --wheel-dir /wheels -r /requirements.txt
 
 
 FROM python:3.13-alpine AS runner
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+# Install runtime dependencies
+RUN apk add --no-cache \
+    postgresql-libs \
+    bash
 
 COPY --from=builder /wheels /wheels
 RUN set -eux; \
@@ -27,7 +42,4 @@ WORKDIR /app
 COPY . /app
 EXPOSE 8000
 
-COPY ./scripts/entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
-CMD ["gunicorn"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "2", "--threads", "4", "djazz.wsgi:application"]

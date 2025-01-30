@@ -1,0 +1,54 @@
+# -----------------------------
+# Docker Compose file for Djazz
+# https://docs.docker.com/reference/compose-file/
+# This compose file assumes that you are running both
+# Postgres and Redis already running and available
+# through the DATABASE_URL and REDIS_URL environment
+# variables, also assumes that you are running the 
+# Django locally on port 8000.
+# Prerequisites:
+# - Docker
+# - Docker Compose
+# - Build your image with the following command:
+#   docker build --build-arg DEV=true -t djazz:dev .
+# Author: @azataiot
+# Last update: 2025-01-30
+# -----------------------------
+
+services:
+  node:
+    image: node:alpine
+    command: >
+      sh -c "npm install -g pnpm &&
+             pnpm install &&
+             pnpm dev"
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - VITE_HOST=0.0.0.0
+    networks:
+      - djazz_network
+
+  celery:
+    image: djazz:dev
+    command: celery -A djazz worker -l INFO
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+  celery-beat:
+    image: djazz:dev
+    command: celery -A djazz beat -l INFO
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+networks:
+  djazz_network:
+    name: djazz_network
+    driver: bridge
