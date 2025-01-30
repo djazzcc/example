@@ -1,0 +1,67 @@
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "8000:8000"
+      - "3000:3000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=djazz.settings.dev
+      - REDIS_URL=redis://redis:6379/1
+      - DATABASE_URL=postgres://djazz:djazz@db:5432/djazz
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:16-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=djazz
+      - POSTGRES_USER=djazz
+      - POSTGRES_PASSWORD=djazz
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  celery:
+    build: .
+    command: celery -A djazz worker -l INFO
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - DJANGO_SETTINGS_MODULE=djazz.settings.dev
+      - REDIS_URL=redis://redis:6379/1
+      - DATABASE_URL=postgres://djazz:djazz@db:5432/djazz
+    depends_on:
+      - redis
+      - db
+
+  celery-beat:
+    build: .
+    command: celery -A djazz beat -l INFO
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - DJANGO_SETTINGS_MODULE=djazz.settings.dev
+      - REDIS_URL=redis://redis:6379/1
+      - DATABASE_URL=postgres://djazz:djazz@db:5432/djazz
+    depends_on:
+      - redis
+      - db
+
+volumes:
+  postgres_data:
+  redis_data: 
