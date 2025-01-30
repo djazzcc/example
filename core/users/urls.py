@@ -12,6 +12,9 @@ urlpatterns = [
     path('register/', views.RegisterView.as_view(), name='register'),
     path('profile/', views.profile, name='profile'),
     
+    path('verify-email/<str:token>/', views.verify_email, name='verify_email'),
+    path('verification-sent/', views.EmailVerificationSentView.as_view(), name='verification_sent'),
+    
     # Password Reset URLs
     path('password-reset/', 
          auth_views.PasswordResetView.as_view(

@@ -7,6 +7,9 @@ $bootstrap-icons-font-dir: "/static/fonts";
 // Import Bootstrap
 @import "bootstrap/scss/bootstrap";
 
+// Import messages
+@import "messages";
+
 // Color mode specific styles
 [data-bs-theme="dark"] {
   .navbar {

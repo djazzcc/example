@@ -17,17 +17,90 @@
     <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="/">Djazz</a>
-            <div class="ms-auto">
-                <button class="btn btn-link nav-link px-3 py-2 d-flex align-items-center" 
-                        id="bd-theme" 
-                        type="button"
-                        aria-label="Toggle theme">
-                    <i class="bi bi-circle-half theme-icon-active"></i>
-                    <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
-                </button>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
+                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle me-2"></i>{{ user.username }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'users:profile' %}">
+                                        <i class="bi bi-person me-2"></i>Profile
+                                    </a>
+                                </li>
+                                {% if user.is_staff %}
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'wagtailadmin_home' %}">
+                                            <i class="bi bi-gear me-2"></i>Admin
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="{% url 'users:logout' %}">
+                                        <i class="bi bi-box-arrow-right me-2"></i>Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'users:login' %}">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'users:register' %}">
+                                <i class="bi bi-person-plus me-2"></i>Register
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item ms-2">
+                        <button class="btn btn-link nav-link px-2 py-1 d-flex align-items-center" 
+                                id="bd-theme" 
+                                type="button"
+                                aria-label="Toggle theme">
+                            <i class="bi bi-circle-half theme-icon-active"></i>
+                            <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+                        </button>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
+
+    {% if messages %}
+    <div class="message-container position-fixed top-0 start-50 translate-middle-x" style="z-index: 1050; margin-top: 1rem;">
+        {% for message in messages %}
+            <div class="toast align-items-center text-bg-{{ message.tags }} border-0 fade show mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {% if message.tags == 'success' %}
+                            <i class="bi bi-check-circle me-2"></i>
+                        {% elif message.tags == 'error' or message.tags == 'danger' %}
+                            <i class="bi bi-exclamation-circle me-2"></i>
+                        {% elif message.tags == 'warning' %}
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                        {% elif message.tags == 'info' %}
+                            <i class="bi bi-info-circle me-2"></i>
+                        {% endif %}
+                        {{ message }}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
     <main class="flex-grow-1">
         {% block content %}{% endblock %}
@@ -43,6 +116,27 @@
         <script type="module" src="{% vite_asset 'core/assets/js/main.js' %}"></script>
     {% else %}
         <script type="module" src="{% vite_asset 'js/main.js' %}"></script>
+    {% endif %}
+
+    {% if messages %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+            var toastList = toastElList.map(function(toastEl) {
+                return new bootstrap.Toast(toastEl, {
+                    autohide: true,
+                    delay: 5000
+                });
+            });
+            
+            // Auto-remove toasts after they're hidden
+            toastElList.forEach(function(toast) {
+                toast.addEventListener('hidden.bs.toast', function() {
+                    this.remove();
+                });
+            });
+        });
+    </script>
     {% endif %}
 </body>
 </html> 

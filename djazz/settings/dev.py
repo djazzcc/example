@@ -17,15 +17,18 @@
 from .base import *         
 from .base import INSTALLED_APPS
 from .base import MIDDLEWARE
+from socket import gethostname, gethostbyname, gethostbyname_ex
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#allowed-hosts
+# https://stackoverflow.com/a/40665906 
 ALLOWED_HOSTS = ['.localhost','.local', '127.0.0.1', '[::1]']
+ALLOWED_HOSTS += [ gethostname(), ] + list(set(gethostbyname_ex(gethostname())[2]))
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#debug
 DEBUG = True
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#email-backend
-# Write email to console in development
+# Use console backend for development
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # Django Debug Toolbar

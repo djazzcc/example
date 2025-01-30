@@ -26,6 +26,7 @@
 from pathlib import Path
 import environ  
 from django.utils.translation import gettext_lazy as _
+from django.contrib.messages import constants as messages
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -273,7 +274,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-user-model
-AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = 'users.User'
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#login-redirect-url
 LOGIN_REDIRECT_URL = "users:profile"
@@ -315,11 +316,11 @@ MESSAGE_STORAGE = "django.contrib.messages.storage.fallback.FallbackStorage"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#messages-tags
 # Make it sync with bootstrap alert classes
 MESSAGE_TAGS = {
-    10: 'success',
-    20: 'info',
-    25: 'success',
-    30: 'danger',
-    40: 'danger',
+    messages.DEBUG: 'secondary',
+    messages.INFO: 'info',
+    messages.SUCCESS: 'success',
+    messages.WARNING: 'warning',
+    messages.ERROR: 'danger',
 }
 
 

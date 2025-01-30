@@ -1,23 +1,61 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.views.generic import CreateView
+from django.views.generic import CreateView, TemplateView
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
+from django.contrib.sites.shortcuts import get_current_site
+from .models import EmailVerification, User
+from django.utils import timezone
+from django.utils.html import strip_tags
 from .forms import LoginForm, RegisterForm
-
+from django.contrib.auth import get_user_model
+from datetime import timedelta
+from django.core.exceptions import ValidationError
 # Create your views here.
+
+User = get_user_model()
 
 class RegisterView(CreateView):
     form_class = RegisterForm
     template_name = 'users/register.html'
-    success_url = reverse_lazy('users:login')
     
     def form_valid(self, form):
         response = super().form_valid(form)
-        messages.success(self.request, 'Registration successful. Please login.')
-        return response
+        user = form.instance
+        
+        # Create email verification token
+        verification = EmailVerification.objects.create(user=user)
+        
+        # Send verification email
+        current_site = get_current_site(self.request)
+        context = {
+            'user': user,
+            'domain': current_site.domain,
+            'protocol': 'https' if self.request.is_secure() else 'http',
+            'token': verification.token,
+            'site_name': current_site.name,
+        }
+        
+        html_content = render_to_string('users/email/verification_email.html', context)
+        text_content = strip_tags(html_content)
+        
+        send_mail(
+            subject='Verify your email address',
+            message=text_content,
+            html_message=html_content,
+            from_email=None,
+            recipient_list=[user.email],
+            fail_silently=False,
+        )
+        
+        return redirect(reverse('users:verification_sent') + f'?email={user.email}')
+
+    def get_success_url(self):
+        return reverse('users:verification_sent') + f'?email={self.object.email}'
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -40,7 +78,6 @@ class LoginView(auth_views.LoginView):
     redirect_authenticated_user = True
 
     def get_success_url(self):
-        """Return the user-originating url if it exists, or default to profile page."""
         next_url = self.request.GET.get('next') or self.request.POST.get('next')
         if next_url and url_has_allowed_host_and_scheme(
             url=next_url,
@@ -56,3 +93,34 @@ class LoginView(auth_views.LoginView):
         if next_url:
             context['next'] = next_url
         return context
+
+    def form_valid(self, form):
+        user = form.get_user()
+        if not user.email_verified:
+            messages.error(self.request, 'Please verify your email address before logging in.')
+            return redirect(reverse('users:verification_sent') + f'?email={user.email}')
+        return super().form_valid(form)
+
+class EmailVerificationSentView(TemplateView):
+    template_name = 'users/verification_sent.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['email'] = self.request.GET.get('email', '')
+        return context
+
+def verify_email(request, token):
+    verification = get_object_or_404(EmailVerification, token=token)
+    
+    if verification.is_expired:
+        messages.error(request, 'The verification link has expired. Please contact support.')
+        return redirect('users:login')
+        
+    if not verification.is_verified:
+        verification.verified_at = timezone.now()
+        verification.save()
+        verification.user.email_verified = True
+        verification.user.save()
+        messages.success(request, 'Your email has been verified. You can now login.')
+    
+    return redirect('users:login')

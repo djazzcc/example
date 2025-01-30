@@ -61,11 +61,12 @@ DEFAULT_FROM_EMAIL = "noreply@example.com"
 # Example (in .env): BREVO_API_KEY="your_brevo_api_key"
 # You can use anymail to send emails from your Django app, check anymail docs
 # for more information.
-EMAIL_BACKEND = "anymail.backends.brevo.EmailBackend"
-ANYMAIL = {
-    "BREVO_API_KEY": env("BREVO_API_KEY"),
-    "BREVO_API_URL": env("BREVO_API_URL", default="https://api.brevo.com/v3/"),
-}
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Or your SMTP server
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'your-email@example.com'
+EMAIL_HOST_PASSWORD = 'your-password-or-app-specific-password'
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#email-subject-prefix
 # Example (in .env): EMAIL_SUBJECT_PREFIX="[Djazz] "
