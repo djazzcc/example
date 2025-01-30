@@ -430,17 +430,29 @@ WAGTAIL_WORKFLOW_ENABLED = False
 # https://docs.celeryq.dev/en/stable/userguide/configuration.html
 # -----------------------------
 
+# Redis URL for Celery
+REDIS_URL = env.str('REDIS_URL', default='redis://localhost:6379/1')
+
 # Celery Configuration Options
-CELERY_TIMEZONE = TIME_ZONE
-CELERY_TASK_TRACK_STARTED = True
-CELERY_TASK_TIME_LIMIT = 30 * 60
-CELERY_RESULT_BACKEND = env.str('CELERY_RESULT_BACKEND', default='redis://localhost:6379/0')
-CELERY_CACHE_BACKEND = "redis"
-CELERY_BROKER_URL = env.str('CELERY_BROKER_URL', default='redis://localhost:6379/0')
 CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
+# https://docs.celeryq.dev/en/stable/userguide/configuration.html#beat-scheduler
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+CELERY_BROKER_URL = REDIS_URL
+
+# Result Backend Settings
+CELERY_RESULT_BACKEND = REDIS_URL
+CELERY_RESULT_BACKEND_ALWAYS_RETRY = True
+CELERY_RESULT_BACKEND_MAX_RETRIES = 3
+CELERY_RESULT_EXTENDED = True
 CELERY_RESULT_SERIALIZER = 'json'
 
-# django-celery-beat settings
-CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+# Task Settings
+CELERY_TASK_SEND_SENT_EVENT = True
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TASK_SOFT_TIME_LIMIT = 60
+CELERY_TASK_TIME_LIMIT = 5 * 60
+CELERY_TASK_TRACK_STARTED = True
 
+# General Settings
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_WORKER_SEND_TASK_EVENTS = True
