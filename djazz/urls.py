@@ -14,12 +14,16 @@ from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from core.search import views as search_views
+from core.utils.views import WelcomeView
 
 # Enable i18n only if both Django and Wagtail i18n are enabled
 I18N_ENABLED = settings.USE_I18N and settings.WAGTAIL_I18N_ENABLED
 
 # Base URL patterns that don't need i18nU
 urlpatterns = [
+    # TODO: Remove this temporary welcome page and replace with your own URLs
+    path('', WelcomeView.as_view(), name='welcome'),  # Delete this line after setting up your own homepage
+    
     path('admin/', admin.site.urls),
     path('cms/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),

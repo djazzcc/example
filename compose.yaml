@@ -9,8 +9,6 @@
 # Prerequisites:
 # - Docker
 # - Docker Compose
-# - Build your image with the following command:
-#   docker build --build-arg DEV=true -t djazz:dev .
 # Author: @azataiot
 # Last update: 2025-01-30
 # -----------------------------
@@ -38,18 +36,30 @@ services:
       - "host.docker.internal:host-gateway"
 
   celery:
+    build:
+      context: .
+      args:
+        DEV: "true"
     image: djazz:dev
     command: celery -A djazz worker -l INFO
     volumes:
       - .:/app
       - /app/node_modules
+    networks:
+      - djazz_network
 
   celery-beat:
+    build:
+      context: .
+      args:
+        DEV: "true"
     image: djazz:dev
     command: celery -A djazz beat -l INFO
     volumes:
       - .:/app
       - /app/node_modules
+    networks:
+      - djazz_network
 
 networks:
   djazz_network:

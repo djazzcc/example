@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Welcome to Djazz{% endblock %}
+
+{% block content %}
+<div class="px-4 py-5 my-5">
+    <div class="container">
+        <!-- Header -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary">Welcome to Djazz!</h1>
+            <div class="col-lg-6 mx-auto">
+                <p class="lead mb-4">
+                    The installation was successful! Congratulations on setting up your Djazz project.
+                </p>
+                <div class="alert alert-warning" role="alert">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    You're seeing this page because you haven't configured any URLs yet. 
+                    You should remove the temporary URL pattern from your urls.py.
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Start Guide -->
+        <div class="row g-4 py-4">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="bi bi-1-circle me-2"></i>
+                            Next Steps
+                        </h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-3">
+                                <i class="bi bi-arrow-right-short"></i>
+                                Start services with <code>docker compose up</code>
+                            </li>
+                            <li class="mb-3">
+                                <i class="bi bi-arrow-right-short"></i>
+                                Run migrations:
+                                <div class="mt-1">
+                                    <code>python manage.py makemigrations</code><br>
+                                    <code>python manage.py migrate</code>
+                                </div>
+                            </li>
+                            <li class="mb-3">
+                                <i class="bi bi-arrow-right-short"></i>
+                                Edit <code>djazz/urls.py</code> to configure your URLs
+                            </li>
+                            <li class="mb-3">
+                                <i class="bi bi-arrow-right-short"></i>
+                                Create your first app using <code>python manage.py startapp</code>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="bi bi-book me-2"></i>
+                            Documentation
+                        </h5>
+                        <p>Everything you need to know about Djazz:</p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <i class="bi bi-link-45deg"></i>
+                                <a href="https://docs.djangoproject.com/" target="_blank">Django Documentation</a>
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-link-45deg"></i>
+                                <a href="https://wagtail.org/docs/" target="_blank">Wagtail CMS Documentation</a>
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-link-45deg"></i>
+                                <a href="https://github.com/djazzcc" target="_blank">Djazz on GitHub</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Environment Info -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Environment Information
+                        </h5>
+                        <table class="table table-sm">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Django Version</th>
+                                    <td>{{ django_version }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Python Version</th>
+                                    <td>{{ python_version }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Installed Apps</th>
+                                    <td>{{ installed_apps|join:", " }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
