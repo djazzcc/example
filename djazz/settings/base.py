@@ -56,6 +56,7 @@ ALLOWED_HOSTS = []
 APPEND_SLASH = True
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#caches
+CACHE_URL = env.str("CACHE_URL", default=None)
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
@@ -72,6 +73,7 @@ CSRF_COOKIE_NAME = "djazz-csrftoken"
 CSRF_COOKIE_SECURE = False
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases 
+DATABASE_URL = env.db("DATABASE_URL", default=None)
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
