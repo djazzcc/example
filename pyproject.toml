@@ -1,5 +1,5 @@
 [project]
-name = "djazz-example"
+name = "djazz-videos-example"
 version = "0.0.1"
 description = "A CLI tool for Django development"
 readme = "README.md"
@@ -30,7 +30,7 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/djazzcc/example"
-Repository = "https://github.com/djazzcc/example"
+Homepage = "https://github.com/djazzcc/videos-example"
+Repository = "https://github.com/djazzcc/videos-example"
 
 
